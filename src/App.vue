@@ -1,6 +1,8 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
+    <Hello-child parentMsg="this is parent msg" v-on:childMsg="listenToChild"></Hello-child>
+    <h4>子组件传值：{{childMsg}}</h4>
     <h2>{{title}}</h2>
     <input v-model="newItem" @keyup.enter="addView">
     <ul>
@@ -11,12 +13,14 @@
 
 <script>
   import Store from './store';
+  import HelloChild from './components/Hello';
   export default {
     data(){
       return {
         title : '待办事项',
         items : Store.fecth(),
-        newItem : ''
+        newItem : '',
+        childMsg:''
       }
     },
     methods : {
@@ -28,6 +32,9 @@
           this.items.push({label : this.newItem, isFinished : false});
         }
         this.newItem = '';
+      },
+      listenToChild(msg){
+        this.childMsg=msg;
       }
     },
     watch:{
@@ -37,6 +44,9 @@
         },
         deep:true
       }
+    },
+    components:{
+      HelloChild
     }
   }
 </script>
