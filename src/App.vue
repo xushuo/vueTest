@@ -5,6 +5,15 @@
     <Hello-child parentMsg="this is parent msg" v-on:childMsg="listenToChild"></Hello-child>
     <h4>子组件传值：{{childMsg}}</h4>
     <h2>{{title}}</h2>
+    <input
+      type="checkbox"
+      v-model="toggle"
+      v-bind:true-value="1"
+      v-bind:false-value="2"
+    >
+    <my-btn msgBTN="btn1"></my-btn>
+    <my-btn msgBTN="btn2"></my-btn>
+    <h3>toggle: {{ toggle }}</h3>
     <h4>{{ computedMsg }}</h4>
     <p v-for="(val, key , index) in object">{{ index+" : "+key+" - "+val }}</p>
     <input v-model="newItem" @keyup.enter="addView">
@@ -29,7 +38,8 @@
           FirstName: 'John',
           LastName: 'Doe',
           Age: 30
-        }
+        },
+        toggle:''
       }
     },
     computed:{
@@ -67,7 +77,16 @@
       }
     },
     components : {
-      HelloChild
+      HelloChild,
+      'my-btn': {
+          data(){
+            return {
+              id: 10
+            }
+          },
+          props:['msgBTN'],
+          template: '<button v-on:click="id++">{{ id +" - " + msgBTN}}</button>'
+      }
     }
   }
 </script>
